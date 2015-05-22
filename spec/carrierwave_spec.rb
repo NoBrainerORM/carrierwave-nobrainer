@@ -68,6 +68,18 @@ describe CarrierWave::NoBrainer do
         File.exist?(path1).should == false
       end
     end
+
+    context 'when destorying the model' do
+      before { Model.mount_uploader :file }
+
+      it 'removes the files' do
+        m = Model.create!(:file => src_file)
+        path1 = m.file.path
+        File.exist?(path1).should == true
+        m.destroy
+        File.exist?(path1).should == false
+      end
+    end
   end
 
   context 'when using :filename options' do

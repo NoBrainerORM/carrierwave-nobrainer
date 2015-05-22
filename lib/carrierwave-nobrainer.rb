@@ -88,7 +88,7 @@ module CarrierWave
         def remove_#{column}!
           super
           self.remove_#{column} = true
-          write_#{column}_identifier
+          write_#{column}_identifier unless destroyed?
         end
 
         def store_previous_changes_for_#{column}
