@@ -11,7 +11,7 @@ module CarrierWave
     #
     def mount_uploader(column, uploader=nil, options={}, &block)
       if options[:filename]
-        super(column, uploader, options.merge(:store_filename => false)) do
+        super(column, uploader, options) do
           define_method(:filename) { options[:filename] }
         end
       else
@@ -47,16 +47,17 @@ module CarrierWave
     def mount_base(column, uploader=nil, options={}, &block)
       super
 
-      if options[:store_filename] == false
+      class << self; attr_accessor :uploader_static_filenames; end
+      self.uploader_static_filenames ||= {}.with_indifferent_access
+
+      if options[:filename]
+        self.uploader_static_filenames[column] = options[:filename]
         class_eval <<-RUBY, __FILE__, __LINE__+1
           def write_#{column}_identifier; end
         RUBY
       else
         field options[:mount_on] || column
       end
-
-      alias_method :read_uploader, :_read_attribute
-      alias_method :write_uploader, :_write_attribute
 
       include CarrierWave::Validations::ActiveModel
 
@@ -74,6 +75,16 @@ module CarrierWave
       after_update :"remove_previously_stored_#{column}"
 
       class_eval <<-RUBY, __FILE__, __LINE__+1
+        def read_uploader(attr)
+          f =  self.class.uploader_static_filenames[attr]
+          f ? f : _read_attribute(attr)
+        end
+
+        def write_uploader(attr, value)
+          f =  self.class.uploader_static_filenames[attr]
+          f ? f : _write_attribute(attr, value)
+        end
+
         def #{column}=(new_file)
           column = _mounter(:#{column}).serialization_column
           attribute_may_change(column)

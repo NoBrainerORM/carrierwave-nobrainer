@@ -90,6 +90,7 @@ describe CarrierWave::NoBrainer do
       Model.create!(:file => src_file)
       Model.raw.first['file'].should == nil
       f = Model.first.file
+      f.file.should_not == nil
       f.filename.should == filename
       f.retrieve_from_store!(f.filename)
       f.cache!
