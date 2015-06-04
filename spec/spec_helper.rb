@@ -9,6 +9,7 @@ Dir["#{SPEC_ROOT}/support/**/*.rb"].each { |f| require f unless File.basename(f)
 NoBrainer.configure do |config|
   config.app_name = :carrierwave
   config.environment = :test
+  config.logger = Logger.new(STDERR).tap { |l| l.level = ENV['DEBUG'] ? Logger::DEBUG : Logger::WARN }
 end
 
 ROOT_DIR = "#{SPEC_ROOT}/tmp/root"

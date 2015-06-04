@@ -52,10 +52,7 @@ describe CarrierWave::NoBrainer do
         path1 = m.file.path
         File.exist?(path1).should == true
 
-        m.file_changed?.should == false
-        m.file = src_file2
-        m.file_changed?.should == true
-        m.save
+        m.update!(:file => src_file2)
 
         File.exist?(path1).should == false
       end
@@ -82,6 +79,17 @@ describe CarrierWave::NoBrainer do
     end
   end
 
+  context 'when the file is not changing' do
+    before { Model.mount_uploader :file }
+
+    it 'should not detect the change' do
+      m = Model.create!(:file => src_file)
+      m = Model.first
+      m.file
+      m.changes.should == {}
+    end
+  end
+
   context 'when using :filename options' do
     let(:filename) { 'stuff.txt' }
     before { Model.mount_uploader :file, nil, :filename => filename }
@@ -105,6 +113,23 @@ describe CarrierWave::NoBrainer do
       Model.create!(:files => [src_file1, src_file2])
       files = Model.first.files
       files.map { |f| f.read }.should == [src_file1, src_file2].map { |f| f.read }
+      Model.first.update!(:files => [src_file1])
+      File.exist?(Model.first.files.first.path).should == true
+    end
+
+    it 'remove files with = []', :pending => 'waiting for https://github.com/carrierwaveuploader/carrierwave/pull/1659' do
+      Model.create!(:files => [src_file1])
+      Model.first.update!(:files => [])
+      Model.first.files.should == []
+    end
+
+    context 'when the file is not changing' do
+      it 'should not detect the change' do
+        Model.create!(:files => [src_file1, src_file2])
+        m = Model.first
+        m.files
+        m.changes.should == {}
+      end
     end
   end
 end

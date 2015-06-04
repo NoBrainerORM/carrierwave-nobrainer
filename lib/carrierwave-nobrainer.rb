@@ -92,7 +92,8 @@ module CarrierWave
         end
 
         def remove_#{column}=(value)
-          attribute_may_change("#{column}")
+          column = _mounter(:#{column}).serialization_column
+          attribute_may_change(column)
           super
         end
 
