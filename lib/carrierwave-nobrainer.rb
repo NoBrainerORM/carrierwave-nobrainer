@@ -123,6 +123,30 @@ module CarrierWave
   end
 end
 
+module CarrierWave
+  module Validations
+    module ActiveModel
+      class ProcessingValidator < ::ActiveModel::EachValidator
+        def should_validate_field?(*)
+          true
+        end
+      end
+
+      class IntegrityValidator < ::ActiveModel::EachValidator
+        def should_validate_field?(*)
+          true
+        end
+      end
+
+      class DownloadValidator < ::ActiveModel::EachValidator
+        def should_validate_field?(*)
+          true
+        end
+      end
+    end
+  end
+end
+
 module NoBrainer::Document::ClassMethods
   include CarrierWave::NoBrainer
 end
