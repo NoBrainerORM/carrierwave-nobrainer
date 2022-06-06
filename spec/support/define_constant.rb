@@ -10,22 +10,22 @@ module DefineConstantMacros
   end
 
   def define_class(class_name, base = Object, &block)
-    name = class_name.to_s.split("::")
+    name = class_name.to_s.split('::')
     mod, klass_name = if name.length > 1
-      module_name = name.first
-      klass_name = name.last
+                        module_name = name.first
+                        klass_name = name.last
 
-      if Object.const_defined?(module_name)
-        mod = Object.const_get(module_name)
-      else
-        mod = Module.new
-        Object.const_set(module_name, mod)
-      end
+                        if Object.const_defined?(module_name)
+                          mod = Object.const_get(module_name)
+                        else
+                          mod = Module.new
+                          Object.const_set(module_name, mod)
+                        end
 
-      [mod, klass_name]
-    else
-      [Object, class_name]
-    end
+                        [mod, klass_name]
+                      else
+                        [Object, class_name]
+                      end
     klass = Class.new(base)
     mod.const_set(klass_name, klass)
 

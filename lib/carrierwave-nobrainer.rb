@@ -1,5 +1,11 @@
+# rubocop:disable Naming/FileName
+# frozen_string_literal: true
+
 require 'nobrainer'
+require 'nobrainer/file_cache'
+require 'nobrainer/file_storage'
 require 'carrierwave'
+require 'carrierwave/storage/nobrainer'
 require 'carrierwave/validations/active_model'
 
 module CarrierWave
@@ -9,7 +15,7 @@ module CarrierWave
     ##
     # See +CarrierWave::Mount#mount_uploader+ for documentation
     #
-    def mount_uploader(column, uploader=nil, options={}, &block)
+    def mount_uploader(column, uploader = nil, options = {}, &block)
       if options[:filename]
         super(column, uploader, options) do
           define_method(:filename) { options[:filename] }
@@ -18,7 +24,7 @@ module CarrierWave
         super
       end
 
-      class_eval <<-RUBY, __FILE__, __LINE__+1
+      class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def remote_#{column}_url=(url)
           column = _mounter(:#{column}).serialization_column
           attribute_may_change("#{column}")
@@ -30,10 +36,10 @@ module CarrierWave
     ##
     # See +CarrierWave::Mount#mount_uploaders+ for documentation
     #
-    def mount_uploaders(column, uploader=nil, options={}, &block)
+    def mount_uploaders(column, uploader = nil, options = {}, &block)
       super
 
-      class_eval <<-RUBY, __FILE__, __LINE__+1
+      class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def remote_#{column}_urls=(url)
           column = _mounter(:#{column}).serialization_column
           attribute_may_change("#{column}")
@@ -44,7 +50,7 @@ module CarrierWave
 
     private
 
-    def mount_base(column, uploader=nil, options={}, &block)
+    def mount_base(column, uploader = nil, options = {}, &block)
       super
 
       class << self; attr_accessor :uploader_static_filenames; end
@@ -52,7 +58,7 @@ module CarrierWave
 
       if options[:filename]
         self.uploader_static_filenames[column] = options[:filename]
-        class_eval <<-RUBY, __FILE__, __LINE__+1
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def write_#{column}_identifier; end
         RUBY
       else
@@ -74,7 +80,7 @@ module CarrierWave
       before_save :"store_previous_changes_for_#{column}"
       after_update :"remove_previously_stored_#{column}"
 
-      class_eval <<-RUBY, __FILE__, __LINE__+1
+      class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def read_uploader(attr)
           f =  self.class.uploader_static_filenames[attr]
           f ? f : _read_attribute(attr)
@@ -150,3 +156,5 @@ end
 module NoBrainer::Document::ClassMethods
   include CarrierWave::NoBrainer
 end
+
+# rubocop:enable Naming/FileName
