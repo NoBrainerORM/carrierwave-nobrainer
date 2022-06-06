@@ -20,11 +20,11 @@ not the 0.10.0 version from Feb. 2014.
 
 Use carrierwave as usual.
 
-As an added feature, you may pass `:filename => 'some_filename.png' to
+As an added feature, you may pass `filename: 'some_filename.png' to
 the `mount_uploader` method options. For example:
 
-```
-mount_uploader :icon, SomeUploader, :filename => 'icon.png'
+```ruby
+mount_uploader :icon, SomeUploader, filename: 'icon.png'
 ```
 
 This will have the effect of not storing this static filename in the document to
