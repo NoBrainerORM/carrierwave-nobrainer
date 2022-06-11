@@ -30,5 +30,19 @@ mount_uploader :icon, SomeUploader, filename: 'icon.png'
 This will have the effect of not storing this static filename in the document to
 avoid polluting the DB with useless fields.
 
+### Storing files in RethinkDB
+
+In the case you need to store files in the RethinkDB database, this gem also
+add a Carrierwave storage for NoBrainer.
+
+To use it, in your uploader set the storage to `:nobrainer`
+
+```ruby
+class AvatarUploader < CarrierWave::Uploader::Base
+  storage :nobrainer
+end
+```
+
+## License
 
 MIT license.

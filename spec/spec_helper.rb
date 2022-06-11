@@ -42,6 +42,8 @@ RSpec.configure do |config|
     NoBrainer.configure(&nobrainer_conf)
     NoBrainer.purge!
     NoBrainer::Loader.cleanup
+    NoBrainer::Document::Core._all << NoBrainer::FileCache
+    NoBrainer::Document::Core._all << NoBrainer::FileStorage
     Dir["#{ROOT_DIR}/*"].each { |path| FileUtils.rm_rf(path) }
     Dir["#{CACHE_DIR}/*"].each { |path| FileUtils.rm_rf(path) }
   end
