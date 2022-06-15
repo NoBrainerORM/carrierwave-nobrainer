@@ -74,11 +74,11 @@ gem:
     COPY LICENSE /gem/
     COPY README.md /gem/
 
-    RUN gem build nobrainer.gemspec \
+    RUN gem build carrierwave-nobrainer.gemspec \
         && mkdir ~/.gem \
         && echo "$GEM_CREDENTIALS" > ~/.gem/credentials \
         && cat ~/.gem/credentials \
         && chmod 600 ~/.gem/credentials \
-        && gem push nobrainer-*.gem
+        && gem push carrierwave-nobrainer-*.gem
 
-    SAVE ARTIFACT nobrainer-*.gem AS LOCAL nobrainer.gem
+    SAVE ARTIFACT carrierwave-nobrainer-*.gem AS LOCAL carrierwave-nobrainer.gem
