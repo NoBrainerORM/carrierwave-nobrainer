@@ -15,6 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First import
 
-[Unreleased]: https://gitlab.com/hydrana/hydrana/compare/v0.2.0...master
-[0.2.0]: https://gitlab.com/hydrana/hydrana/compare/v0.1.0...v0.2.0
-[0.1.0]: https://gitlab.com/hydrana/hydrana/tags/v0.1.0
+[Unreleased]: https://github.com/NoBrainerORM/carrierwave-nobrainer/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/NoBrainerORM/carrierwave-nobrainer/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/NoBrainerORM/carrierwave-nobrainer/releases/tag/v0.1.0
