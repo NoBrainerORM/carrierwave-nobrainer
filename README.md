@@ -10,7 +10,7 @@ Include in your Gemfile:
 
 ```ruby
 gem 'carrierwave', '>= 2', '< 3'
-gem 'carrierwave-nobrainer', github: 'nviennot/carrierwave-nobrainer'
+gem 'carrierwave-nobrainer'
 ```
 
 Note: this adapter has only been tested with the master branch of carrierwave,
