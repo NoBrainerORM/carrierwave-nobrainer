@@ -15,9 +15,9 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.0'
 
   s.metadata['allowed_push_host'] = 'https://rubygems.org'
-  s.metadata['homepage_uri'] = spec.homepage
-  s.metadata['source_code_uri'] = spec.homepage
-  s.metadata['changelog_uri'] = "#{spec.homepage}/blob/master/CHANGELOG.md"
+  s.metadata['homepage_uri'] = s.homepage
+  s.metadata['source_code_uri'] = s.homepage
+  s.metadata['changelog_uri'] = "#{s.homepage}/blob/master/CHANGELOG.md"
 
   s.files        = Dir['lib/**/*'] + ['README.md']
   s.require_path = 'lib'
